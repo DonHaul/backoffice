@@ -1,22 +1,13 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
 
 from backoffice.workflows.models import Workflow, WorkflowTicket
 
 from .serializers import WorkflowSerializer, WorkflowTicketSerializer
-
-
-class WorkflowPagination(PageNumberPagination):
-    page_size = 10  # Default number of items per page
-    page_size_query_param = 'page_size'
-    max_page_size = 100
-
 class WorkflowViewSet(viewsets.ModelViewSet):
     queryset = Workflow.objects.all()
     serializer_class = WorkflowSerializer
-    pagination_class = WorkflowPagination
 
     def get_queryset(self):
         status = self.request.query_params.get("status")
