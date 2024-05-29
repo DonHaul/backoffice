@@ -1,0 +1,435 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1//dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: '<!doctype html>
+
+        <html lang=en>
+
+        <title>Redirecting...</title>
+
+        <h1>Redirecting...</h1>
+
+        <p>You should be redirected automatically to the target URL: <a href="http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances">http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances</a>.
+        If not, click the link.
+
+        '
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '453'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Location:
+      - http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+      Server:
+      - gunicorn
+      Set-Cookie:
+      - session=75b57aa0-c94d-4521-b627-2adba5beed92.4K1LnQ_BIzyUsui4IcZCVuZzPT0;
+        Expires=Fri, 28 Jun 2024 15:55:34 GMT; HttpOnly; Path=/; SameSite=Lax
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 308
+      message: PERMANENT REDIRECT
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Cookie:
+      - session=75b57aa0-c94d-4521-b627-2adba5beed92.4K1LnQ_BIzyUsui4IcZCVuZzPT0
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: "{\n  \"task_instances\": [\n    {\n      \"dag_id\": \"author_create_initialization_dag\",\n
+        \     \"dag_run_id\": \"0092dfb8-e754-46c2-b2f7-c4d116509107\",\n      \"duration\":
+        0.0,\n      \"end_date\": \"2024-05-29T09:49:27.021725+00:00\",\n      \"execution_date\":
+        \"2024-05-29T09:49:26.128409+00:00\",\n      \"executor_config\": \"{}\",\n
+        \     \"hostname\": \"\",\n      \"map_index\": -1,\n      \"max_tries\":
+        0,\n      \"note\": null,\n      \"operator\": \"_PythonDecoratedOperator\",\n
+        \     \"pid\": null,\n      \"pool\": \"default_pool\",\n      \"pool_slots\":
+        1,\n      \"priority_weight\": 2,\n      \"queue\": \"default\",\n      \"queued_when\":
+        null,\n      \"rendered_fields\": {},\n      \"sla_miss\": null,\n      \"start_date\":
+        \"2024-05-29T09:49:27.021725+00:00\",\n      \"state\": \"upstream_failed\",\n
+        \     \"task_id\": \"create_author_create_user_ticket\",\n      \"trigger\":
+        null,\n      \"triggerer_job\": null,\n      \"try_number\": 0,\n      \"unixname\":
+        \"airflow\"\n    },\n    {\n      \"dag_id\": \"author_create_initialization_dag\",\n
+        \     \"dag_run_id\": \"0092dfb8-e754-46c2-b2f7-c4d116509107\",\n      \"duration\":
+        0.0,\n      \"end_date\": \"2024-05-29T09:49:27.539124+00:00\",\n      \"execution_date\":
+        \"2024-05-29T09:49:26.128409+00:00\",\n      \"executor_config\": \"{}\",\n
+        \     \"hostname\": \"\",\n      \"map_index\": -1,\n      \"max_tries\":
+        0,\n      \"note\": null,\n      \"operator\": \"_PythonDecoratedOperator\",\n
+        \     \"pid\": null,\n      \"pool\": \"default_pool\",\n      \"pool_slots\":
+        1,\n      \"priority_weight\": 1,\n      \"queue\": \"default\",\n      \"queued_when\":
+        null,\n      \"rendered_fields\": {},\n      \"sla_miss\": null,\n      \"start_date\":
+        \"2024-05-29T09:49:27.539124+00:00\",\n      \"state\": \"upstream_failed\",\n
+        \     \"task_id\": \"set_author_create_workflow_status_to_approval\",\n      \"trigger\":
+        null,\n      \"triggerer_job\": null,\n      \"try_number\": 0,\n      \"unixname\":
+        \"airflow\"\n    },\n    {\n      \"dag_id\": \"author_create_initialization_dag\",\n
+        \     \"dag_run_id\": \"0092dfb8-e754-46c2-b2f7-c4d116509107\",\n      \"duration\":
+        0.072693,\n      \"end_date\": \"2024-05-29T11:26:41.032707+00:00\",\n      \"execution_date\":
+        \"2024-05-29T09:49:26.128409+00:00\",\n      \"executor_config\": \"{}\",\n
+        \     \"hostname\": \"b1e982ec9e3b\",\n      \"map_index\": -1,\n      \"max_tries\":
+        1,\n      \"note\": null,\n      \"operator\": \"_PythonDecoratedOperator\",\n
+        \     \"pid\": 21050,\n      \"pool\": \"default_pool\",\n      \"pool_slots\":
+        1,\n      \"priority_weight\": 3,\n      \"queue\": \"default\",\n      \"queued_when\":
+        \"2024-05-29T11:26:40.475967+00:00\",\n      \"rendered_fields\": {\n        \"op_args\":
+        [],\n        \"op_kwargs\": {},\n        \"templates_dict\": null\n      },\n
+        \     \"sla_miss\": null,\n      \"start_date\": \"2024-05-29T11:26:40.960014+00:00\",\n
+        \     \"state\": \"failed\",\n      \"task_id\": \"set_workflow_status_to_running\",\n
+        \     \"trigger\": null,\n      \"triggerer_job\": null,\n      \"try_number\":
+        2,\n      \"unixname\": \"airflow\"\n    }\n  ],\n  \"total_entries\": 3\n}\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '2821'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Server:
+      - gunicorn
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1//dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances/set_workflow_status_to_running/logs/2
+  response:
+    body:
+      string: '<!doctype html>
+
+        <html lang=en>
+
+        <title>Redirecting...</title>
+
+        <h1>Redirecting...</h1>
+
+        <p>You should be redirected automatically to the target URL: <a href="http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances/set_workflow_status_to_running/logs/2">http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances/set_workflow_status_to_running/logs/2</a>.
+        If not, click the link.
+
+        '
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '529'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Location:
+      - http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances/set_workflow_status_to_running/logs/2
+      Server:
+      - gunicorn
+      Set-Cookie:
+      - session=1a3ed15d-ab85-4ab1-97c1-5263485590bb.Hay6f6hDfzuzdkoblI26vcdYOm4;
+        Expires=Fri, 28 Jun 2024 15:55:34 GMT; HttpOnly; Path=/; SameSite=Lax
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 308
+      message: PERMANENT REDIRECT
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Cookie:
+      - session=1a3ed15d-ab85-4ab1-97c1-5263485590bb.Hay6f6hDfzuzdkoblI26vcdYOm4
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1/dags/author_create_initialization_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances/set_workflow_status_to_running/logs/2
+  response:
+    body:
+      string: "b1e982ec9e3b\n*** Found local files:\n***   * /opt/airflow/logs/dag_id=author_create_initialization_dag/run_id=0092dfb8-e754-46c2-b2f7-c4d116509107/task_id=set_workflow_status_to_running/attempt=2.log\n[2024-05-29T11:26:40.959+0000]
+        {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable
+        deps ti=<TaskInstance: author_create_initialization_dag.set_workflow_status_to_running
+        0092dfb8-e754-46c2-b2f7-c4d116509107 [queued]>\n[2024-05-29T11:26:40.962+0000]
+        {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable
+        deps ti=<TaskInstance: author_create_initialization_dag.set_workflow_status_to_running
+        0092dfb8-e754-46c2-b2f7-c4d116509107 [queued]>\n[2024-05-29T11:26:40.963+0000]
+        {taskinstance.py:1308} INFO - Starting attempt 2 of 2\n[2024-05-29T11:26:40.968+0000]
+        {taskinstance.py:1327} INFO - Executing <Task(_PythonDecoratedOperator): set_workflow_status_to_running>
+        on 2024-05-29 09:49:26.128409+00:00\n[2024-05-29T11:26:40.970+0000] {standard_task_runner.py:57}
+        INFO - Started process 21050 to run task\n[2024-05-29T11:26:40.972+0000] {standard_task_runner.py:84}
+        INFO - Running: ['***', 'tasks', 'run', 'author_create_initialization_dag',
+        'set_workflow_status_to_running', '0092dfb8-e754-46c2-b2f7-c4d116509107',
+        '--job-id', '234', '--raw', '--subdir', 'DAGS_FOLDER/author/author_create/author_create_init.py',
+        '--cfg-path', '/tmp/tmplnetfawv']\n[2024-05-29T11:26:40.974+0000] {standard_task_runner.py:85}
+        INFO - Job 234: Subtask set_workflow_status_to_running\n[2024-05-29T11:26:40.993+0000]
+        {task_command.py:410} INFO - Running <TaskInstance: author_create_initialization_dag.set_workflow_status_to_running
+        0092dfb8-e754-46c2-b2f7-c4d116509107 [running]> on host b1e982ec9e3b\n[2024-05-29T11:26:41.028+0000]
+        {taskinstance.py:1547} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***'
+        AIRFLOW_CTX_DAG_ID='author_create_initialization_dag' AIRFLOW_CTX_TASK_ID='set_workflow_status_to_running'
+        AIRFLOW_CTX_EXECUTION_DATE='2024-05-29T09:49:26.128409+00:00' AIRFLOW_CTX_TRY_NUMBER='2'
+        AIRFLOW_CTX_DAG_RUN_ID='0092dfb8-e754-46c2-b2f7-c4d116509107'\n[2024-05-29T11:26:41.029+0000]
+        {taskinstance.py:1824} ERROR - Task failed with exception\nTraceback (most
+        recent call last):\n  File \"/home/airflow/.local/lib/python3.7/site-packages/airflow/decorators/base.py\",
+        line 220, in execute\n    return_value = super().execute(context)\n  File
+        \"/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py\",
+        line 181, in execute\n    return_value = self.execute_callable()\n  File \"/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py\",
+        line 198, in execute_callable\n    return self.python_callable(*self.op_args,
+        **self.op_kwargs)\n  File \"/opt/airflow/dags/author/author_create/author_create_init.py\",
+        line 45, in set_workflow_status_to_running\n    print(qs)\nNameError: name
+        'qs' is not defined\n[2024-05-29T11:26:41.032+0000] {taskinstance.py:1350}
+        INFO - Marking task as FAILED. dag_id=author_create_initialization_dag, task_id=set_workflow_status_to_running,
+        execution_date=20240529T094926, start_date=20240529T112640, end_date=20240529T112641\n[2024-05-29T11:26:41.037+0000]
+        {standard_task_runner.py:109} ERROR - Failed to execute job 234 for task set_workflow_status_to_running
+        (name 'qs' is not defined; 21050)\n[2024-05-29T11:26:41.070+0000] {local_task_job_runner.py:225}
+        INFO - Task exited with return code 1\n[2024-05-29T11:26:41.080+0000] {taskinstance.py:2653}
+        INFO - 0 downstream tasks scheduled from follow-on schedule check\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '3501'
+      Content-Type:
+      - text/plain
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Server:
+      - gunicorn
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1//dags/author_create_approved_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: '<!doctype html>
+
+        <html lang=en>
+
+        <title>Redirecting...</title>
+
+        <h1>Redirecting...</h1>
+
+        <p>You should be redirected automatically to the target URL: <a href="http://airflow-webserver:8080/api/v1/dags/author_create_approved_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances">http://airflow-webserver:8080/api/v1/dags/author_create_approved_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances</a>.
+        If not, click the link.
+
+        '
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '441'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Location:
+      - http://airflow-webserver:8080/api/v1/dags/author_create_approved_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+      Server:
+      - gunicorn
+      Set-Cookie:
+      - session=82fa0f73-ed4a-43d5-a348-b33a1fc4a418.wJbPDzcNglITCnTtSHBcexfh-nU;
+        Expires=Fri, 28 Jun 2024 15:55:34 GMT; HttpOnly; Path=/; SameSite=Lax
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 308
+      message: PERMANENT REDIRECT
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Cookie:
+      - session=82fa0f73-ed4a-43d5-a348-b33a1fc4a418.wJbPDzcNglITCnTtSHBcexfh-nU
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1/dags/author_create_approved_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: "{\n  \"task_instances\": [],\n  \"total_entries\": 0\n}\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '49'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Server:
+      - gunicorn
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1//dags/author_create_rejected_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: '<!doctype html>
+
+        <html lang=en>
+
+        <title>Redirecting...</title>
+
+        <h1>Redirecting...</h1>
+
+        <p>You should be redirected automatically to the target URL: <a href="http://airflow-webserver:8080/api/v1/dags/author_create_rejected_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances">http://airflow-webserver:8080/api/v1/dags/author_create_rejected_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances</a>.
+        If not, click the link.
+
+        '
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '441'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Wed, 29 May 2024 15:55:34 GMT
+      Location:
+      - http://airflow-webserver:8080/api/v1/dags/author_create_rejected_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+      Server:
+      - gunicorn
+      Set-Cookie:
+      - session=39f3620b-541a-4380-a479-90e321e96550.X1238665wAMKiW3WwciC1RRZ4cc;
+        Expires=Fri, 28 Jun 2024 15:55:34 GMT; HttpOnly; Path=/; SameSite=Lax
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 308
+      message: PERMANENT REDIRECT
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Basic YWlyZmxvdzphaXJmbG93
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Cookie:
+      - session=39f3620b-541a-4380-a479-90e321e96550.X1238665wAMKiW3WwciC1RRZ4cc
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: http://airflow-webserver:8080/api/v1/dags/author_create_rejected_dag/dagRuns/0092dfb8-e754-46c2-b2f7-c4d116509107/taskInstances
+  response:
+    body:
+      string: "{\n  \"task_instances\": [],\n  \"total_entries\": 0\n}\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '49'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 29 May 2024 15:55:35 GMT
+      Server:
+      - gunicorn
+      X-Robots-Tag:
+      - noindex, nofollow
+    status:
+      code: 200
+      message: OK
+version: 1

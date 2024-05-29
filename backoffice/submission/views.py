@@ -58,3 +58,26 @@ class SubmissionViewSet(viewsets.ViewSet):
         return Response({'message': 'workflow triggered successfully',
                          'data':response.content,
                          'status_code':response.status_code}, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['get'])
+    def fetchworkflowerror(self, request):
+
+        workflow_id = request.query_params.get('workflow_id','')
+
+        tracebacks = {}
+
+        # iterate all author related dags
+        for author_dag_id in airflow_utils.AUTHOR_DAG_IDS:
+            # get all tasks 
+            tasks = airflow_utils.get_task_instances(author_dag_id,workflow_id)
+
+            # iterate tasks 
+            for task in tasks:
+                if task['state'] == "failed":
+                    log = airflow_utils.get_task_logs(author_dag_id,workflow_id,task["task_id"],task["try_number"])
+                    traceback = airflow_utils.extract_traceback(log)
+                    if traceback:
+                        tracebacks[task['task_id']] = traceback
+
+        return Response({'workflow_id': workflow_id,
+                         'tracebacks':tracebacks}, status=status.HTTP_200_OK)
