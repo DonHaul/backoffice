@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, generics
 from rest_framework.response import Response
 
 from backoffice.workflows.models import Workflow, WorkflowTicket
@@ -42,7 +42,7 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
         try:
             workflow_ticket = WorkflowTicket.objects.get(workflow_id=workflow_id, ticket_type=ticket_type)
             serializer = WorkflowTicketSerializer(workflow_ticket)
-            return Response(serializer.data)
+            return Response(serializer.data) 
         except WorkflowTicket.DoesNotExist:
             return Response({"error": "Workflow ticket not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -65,3 +65,10 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class WorkflowTicketList(generics.ListAPIView):
+    serializer_class = WorkflowTicketSerializer
+
+    def get_queryset(self):
+        workflow_id = self.kwargs['workflow_id']
+        return WorkflowTicket.objects.filter(workflow_id=workflow_id)

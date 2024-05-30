@@ -13,3 +13,4 @@ class WorkflowTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkflowTicket
         fields = "__all__"
+

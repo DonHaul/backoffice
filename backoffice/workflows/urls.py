@@ -1,7 +1,6 @@
 from django.urls import include, path
-
-from backoffice.config.api_router import router
+from . import views
 
 urlpatterns = [
-    path("api/", include(router.urls)),
+    path('/workflows/<str:workflow_id>/tickets/', views.WorkflowTicketList.as_view(), name='workflow_tickets_list'),
 ]
