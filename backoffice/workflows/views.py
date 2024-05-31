@@ -1,8 +1,14 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets, generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+import requests
 
 from backoffice.workflows.models import Workflow, WorkflowTicket
+
+# TODO: move airflow utils to a generic folder
+from backoffice.submission import airflow_utils
 
 from .serializers import WorkflowSerializer, WorkflowTicketSerializer
 
@@ -42,7 +48,7 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
         try:
             workflow_ticket = WorkflowTicket.objects.get(workflow_id=workflow_id, ticket_type=ticket_type)
             serializer = WorkflowTicketSerializer(workflow_ticket)
-            return Response(serializer.data) 
+            return Response(serializer.data)
         except WorkflowTicket.DoesNotExist:
             return Response({"error": "Workflow ticket not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -72,3 +78,40 @@ class WorkflowTicketList(generics.ListAPIView):
     def get_queryset(self):
         workflow_id = self.kwargs['workflow_id']
         return WorkflowTicket.objects.filter(workflow_id=workflow_id)
+    
+class RestartWorkflowView(APIView):
+    def post(self, request,dag_id,workflow_id):
+
+        task_ids = request.data.get('task_ids',None)
+        params = request.data.get('params',None)
+
+        # post with workflow that we wish to do
+        if not workflow_id:
+            return Response({'error': 'workflow_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {
+                "dry_run": False,
+                "dag_run_id": workflow_id,
+                "reset_dag_runs": False,
+                "only_failed":False
+                }
+        
+        if task_ids:
+            data["task_ids"] = task_ids
+
+        # if no new params coming in simply clear task(s) and the dag will run again
+        if not params:
+            # Fetch book data from the external API
+            response = requests.post(f'{airflow_utils.AIRFLOW_BASE_URL}/api/v1/dags/{dag_id}/clearTaskInstances',json=data,headers=airflow_utils.AIRFLOW_HEADERS)
+            print(response.status_code)
+            if response.status_code != 200:
+                return Response({'error': 'Failed to restart task'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            return Response(response.json(), status=status.HTTP_200_OK)
+        else:
+            # TODO should we really be deleting it or should we keep this dagRun and simply run a completely new one?
+            response = requests.delete(f'{airflow_utils.AIRFLOW_BASE_URL}/api/v1/dags/{dag_id}/dagRuns/{workflow_id}',headers=airflow_utils.AIRFLOW_HEADERS)
+            if response.status_code != 204:
+                return Response({'error': 'Failed to restart'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+            airflow_utils.trigger_airflow_dag(dag_id=dag_id,workflow_id=workflow_id,extra_data=params)
