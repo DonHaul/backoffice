@@ -8,9 +8,10 @@ from backoffice.workflows.models import Workflow
 @registry.register_document
 class WorkflowDocument(Document):
     id = fields.TextField()
+    
     workflow_type = fields.TextField()
     data = fields.TextField()
-    status = fields.BooleanField()
+    status = fields.KeywordField()
     is_update = fields.BooleanField()
 
     class Index:

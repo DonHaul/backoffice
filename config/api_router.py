@@ -12,7 +12,7 @@ else:
 router.register("users", UserViewSet)
 
 # Workflows
-router.register("workflows", WorkflowViewSet, basename="workflows")
+router.register("workflowss", WorkflowViewSet, basename="workflows")
 router.register("workflow-update", WorkflowPartialUpdateViewSet, basename="workflow-update")
 router.register("workflow-ticket", WorkflowTicketViewSet, basename="workflow-ticket"),
 app_name = "api"
