@@ -48,8 +48,7 @@ class TestWorkflowViewSet(BaseTransactionTestCase):
     def test_list_admin(self):
         self.api_client.force_authenticate(user=self.admin)
         response = self.api_client.get(self.endpoint, format="json")
-        print('name is jeff')
-        print(response.json())
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
