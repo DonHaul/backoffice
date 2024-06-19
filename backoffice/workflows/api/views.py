@@ -72,18 +72,11 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class WorflowSubmissionViewSet(viewsets.ViewSet):
+class AuthorWorkflowSubmissionViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["post"])
     def submit(self, request):
-
-        # TODO workflow submission serializer
-
         # create workflow entry
-        workflow = Workflow.objects.create(
-            data=request.data, status="approval", core=True, is_update=False, workflow_type="AUTHOR_CREATE"
-        )
-
-        print("Triggering dag")
+        workflow = Workflow.objects.create(data=request.data, status="approval", workflow_type="AUTHOR_CREATE")
         # response id, corresponds to the new workflow id
         response = airflow_utils.trigger_airflow_dag("author_create_initialization_dag", str(workflow.id))
 
