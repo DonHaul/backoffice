@@ -94,7 +94,7 @@ class AuthorWorkflowViewSet(viewsets.ViewSet):
             dag_name = "author_create_approved_dag"
         elif resolution == "reject":
             dag_name = "author_create_rejected_dag"
-        else:
+
             return Response(
                 {"message": "resolution method unrecognized"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
