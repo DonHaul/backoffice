@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 
 from backoffice.users.api.views import UserViewSet
 from backoffice.workflows.api.views import (
-    AuthorWorkflowSubmissionViewSet,
+    AuthorWorkflowViewSet,
     WorkflowPartialUpdateViewSet,
     WorkflowTicketViewSet,
     WorkflowViewSet,
@@ -20,6 +20,6 @@ router.register("users", UserViewSet)
 router.register("workflows", WorkflowViewSet, basename="workflows")
 router.register("workflow-update", WorkflowPartialUpdateViewSet, basename="workflow-update")
 router.register("workflow-ticket", WorkflowTicketViewSet, basename="workflow-ticket"),
-router.register("author", AuthorWorkflowSubmissionViewSet, basename="author-submission"),
+router.register("authors", AuthorWorkflowViewSet, basename="authors-workflow"),
 app_name = "api"
 urlpatterns = router.urls

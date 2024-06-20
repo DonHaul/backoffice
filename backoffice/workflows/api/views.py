@@ -73,12 +73,26 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
 
 
 class AuthorWorkflowViewSet(viewsets.ViewSet):
-    @action(detail=False, methods=["post"])
-    def submit(self, request):
+    def create(self, request):
+
+        workflow = Workflow.objects.create(data=request.data, workflow_type="AUTHOR_CREATE")
+        serializer = WorkflowSerializer(workflow)
+
+        response = airflow_utils.trigger_airflow_dag(
+            "author_create_initialization_dag", str(workflow.id), serializer.data
+        )
+
+        return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
         # create workflow entry
-        workflow = Workflow.objects.create(data=request.data, status="approval", workflow_type="AUTHOR_CREATE")
-        # response id, corresponds to the new workflow id
-        response = airflow_utils.trigger_airflow_dag("author_create_initialization_dag", str(workflow.id))
+        workflow = Workflow.objects.create(data=request.data, workflow_type="AUTHOR_UPDATE")
+
+        serializer = WorkflowSerializer(workflow, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+
+        response = airflow_utils.trigger_airflow_dag("author_update_dag", str(workflow.id), serializer.data)
 
         return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
 
