@@ -72,7 +72,7 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class AuthorWorkflowSubmissionViewSet(viewsets.ViewSet):
+class AuthorWorkflowViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["post"])
     def submit(self, request):
         # create workflow entry
