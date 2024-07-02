@@ -26,10 +26,11 @@ class Workflow(models.Model):
         choices=STATUS_CHOICES,
         default=DEFAULT_STATUS_CHOICE,
     )
-    core = models.BooleanField()
+    core = models.BooleanField(default=False)
+    is_update = models.BooleanField(default=False)
 
-    url = models.URLField()
-    is_update = models.BooleanField()
+    _created_at = models.DateTimeField(auto_now_add=True)
+    _updated_at = models.DateTimeField(auto_now=True)
 
 
 class WorkflowTicket(models.Model):
