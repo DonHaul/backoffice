@@ -9,6 +9,7 @@ from backoffice.workflows import airflow_utils
 from backoffice.workflows.documents import WorkflowDocument
 from backoffice.workflows.models import Workflow, WorkflowTicket
 
+from ..constants import WORKFLOW_TYPES
 from .serializers import WorkflowDocumentSerializer, WorkflowSerializer, WorkflowTicketSerializer
 
 
@@ -75,45 +76,36 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
 class AuthorWorkflowViewSet(viewsets.ViewSet):
     def create(self, request):
 
-        workflow = Workflow.objects.create(data=request.data, workflow_type="AUTHOR_CREATE")
+        workflow = Workflow.objects.create(data=request.data["data"], workflow_type=request.data["workflow_type"])
         serializer = WorkflowSerializer(workflow)
 
-        response = airflow_utils.trigger_airflow_dag(
-            "author_create_initialization_dag", str(workflow.id), serializer.data
-        )
+        if workflow.workflow_type == WORKFLOW_TYPES[2][0]:
+            dag_name = "author_create_initialization_dag"
+        elif workflow.workflow_type == WORKFLOW_TYPES[3][0]:
+            dag_name = "author_update_dag"
+        else:
+            return Response({"message": "workflow_type unrecognized"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
+        return airflow_utils.trigger_airflow_dag(dag_name, str(workflow.id), serializer.data)
 
-    def update(self, request, pk=None):
-        # create workflow entry
-        workflow = Workflow.objects.create(data=request.data, workflow_type="AUTHOR_UPDATE")
-
-        serializer = WorkflowSerializer(workflow, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-
-        response = airflow_utils.trigger_airflow_dag("author_update_dag", str(workflow.id), serializer.data)
-
-        return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
-
-    @action(detail=False, methods=["post"])
-    def resolve(self, request):
+    @action(detail=True, methods=["post"])
+    def resolve(self, request, pk=None):
 
         data = request.data
         create_ticket = data["create_ticket"]
-        resolution = data["resolution"]
+        resolution = data["value"]
         extra_data = {"create_ticket": create_ticket, "resolution": resolution}
 
         if resolution == "accept":
             dag_name = "author_create_approved_dag"
         elif resolution == "reject":
             dag_name = "author_create_rejected_dag"
-
+        else:
             return Response(
                 {"message": "resolution method unrecognized"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-        response = airflow_utils.trigger_airflow_dag(dag_name, data["id"], extra_data)
+        response = airflow_utils.trigger_airflow_dag(dag_name, pk, extra_data)
 
         return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
 
