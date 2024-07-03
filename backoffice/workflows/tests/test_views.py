@@ -1,19 +1,22 @@
 from unittest.mock import patch
 
-from django.apps import apps
+import vcr
+
+# from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-from django.test import TransactionTestCase
+from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 from opensearch_dsl import Index
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from backoffice.workflows.api.serializers import WorkflowTicketSerializer
-from backoffice.workflows.models import WorkflowTicket
+
+from ..models import Workflow, WorkflowTicket
 
 User = get_user_model()
-Workflow = apps.get_model(app_label="workflows", model_name="Workflow")
+# Workflow = apps.get_model(app_label="workflows", model_name="Workflow")
 
 
 class BaseTransactionTestCase(TransactionTestCase):
@@ -267,4 +270,63 @@ class TestAuthorWorkflowViewSet(BaseTransactionTestCase):
             reverse("api:authors-workflow-resolve", kwargs={"pk": "WORKFLOW_ID"}), format="json", data=data
         )
 
+        self.assertEqual(response.status_code, 200)
+
+
+class FetchWorkflowErrorTestCase(TestCase):
+
+    fixtures = ["backoffice/fixtures/groups.json"]
+
+    def setUp(self):
+        # Create some test data
+        self.api_client = APIClient()
+
+        self.admin_group = Group.objects.get(name="admin")
+        self.admin = User.objects.create_user(email="admin@test.com", password="12345")
+        self.admin.groups.add(self.admin_group)
+
+        self.api_client.force_authenticate(user=self.admin)
+
+        self.workflow = Workflow.objects.create(url="https://unusedfield.com", data={}, core=False, is_update=False)
+        self.ticket1 = WorkflowTicket.objects.create(ticket_id="ticket1", workflow_id=self.workflow)
+        self.ticket2 = WorkflowTicket.objects.create(ticket_id="ticket2", workflow_id=self.workflow)
+
+    @vcr.use_cassette("backoffice/workflows/tests/cassettes/test_restart_full_dagrun.yaml")
+    def test_restart_full_dagrun(self):
+
+        url = reverse(
+            "workflow_restart",
+            kwargs={
+                "workflow_id": "0092dfb8-e754-46c2-b2f7-c4d116509107",
+                "dag_id": "author_create_initialization_dag",
+            },
+        )
+
+        response = self.api_client.post(url)
+        self.assertEqual(response.status_code, 200)
+
+    @vcr.use_cassette("backoffice/workflows/tests/cassettes/test_restart_a_task.yaml")
+    def test_restart_a_task(self):
+        url = reverse(
+            "workflow_restart",
+            kwargs={
+                "workflow_id": "0092dfb8-e754-46c2-b2f7-c4d116509107",
+                "dag_id": "author_create_initialization_dag",
+            },
+        )
+
+        response = self.api_client.post(url, json={"task_ids": ["set_workflow_status_to_running"]})
+        self.assertEqual(response.status_code, 200)
+
+    @vcr.use_cassette("backoffice/workflows/tests/cassettes/test_restart_with_params.yaml")
+    def test_restart_with_params(self):
+        url = reverse(
+            "workflow_restart",
+            kwargs={
+                "workflow_id": "0092dfb8-e754-46c2-b2f7-c4d116509107",
+                "dag_id": "author_create_initialization_dag",
+            },
+        )
+
+        response = self.api_client.post(url, json={"params": {"workflow_id": "0092dfb8-e754-46c2-b2f7-c4d116509107"}})
         self.assertEqual(response.status_code, 200)
