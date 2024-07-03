@@ -17,7 +17,7 @@ else:
 router.register("users", UserViewSet)
 
 # Workflows
-router.register("workflows/authors", AuthorWorkflowViewSet, basename="authors-workflow"),
+router.register("workflows/authors", AuthorWorkflowViewSet, basename="workflows-authors"),
 router.register("workflows", WorkflowViewSet, basename="workflows")
 router.register("workflow-update", WorkflowPartialUpdateViewSet, basename="workflow-update")
 router.register("workflow-ticket", WorkflowTicketViewSet, basename="workflow-ticket"),

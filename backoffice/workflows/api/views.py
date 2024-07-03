@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django_elasticsearch_dsl_drf.viewsets import BaseDocumentViewSet
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,6 +14,12 @@ from backoffice.workflows.models import Workflow, WorkflowTicket
 
 from ..constants import WORKFLOW_TYPES
 from .serializers import WorkflowDocumentSerializer, WorkflowSerializer, WorkflowTicketSerializer
+
+
+class ValidationError(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = "Input Data Unrecognized"
+    default_code = "invalid_data"
 
 
 class WorkflowViewSet(viewsets.ModelViewSet):
@@ -126,7 +133,7 @@ class AuthorWorkflowViewSet(viewsets.ViewSet):
         elif workflow.workflow_type == WORKFLOW_TYPES[3][0]:
             dag_name = "author_update_dag"
         else:
-            return Response({"message": "workflow_type unrecognized"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            raise ValidationError("The specified workflow type is not recognized")
 
         return airflow_utils.trigger_airflow_dag(dag_name, str(workflow.id), serializer.data)
 
@@ -143,13 +150,11 @@ class AuthorWorkflowViewSet(viewsets.ViewSet):
         elif resolution == "reject":
             dag_name = "author_create_rejected_dag"
         else:
-            return Response(
-                {"message": "resolution method unrecognized"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            raise ValidationError("The specified value is not recognized, must be accept or reject")
 
         response = airflow_utils.trigger_airflow_dag(dag_name, pk, extra_data)
 
-        return Response({"data": response.content, "status_code": response.status_code}, status=status.HTTP_200_OK)
+        return Response({"data": response.content, "status_code": response.status_code})
 
 
 class WorkflowDocumentView(BaseDocumentViewSet):

@@ -20,4 +20,8 @@ OPENSEARCH_INDEX_PREFIX=backoffice-backend-local
 
 # Airflow
 AIRFLOW_BASE_URL=http://localhost:8080
+<<<<<<< HEAD
 AIRFLOW_TOKEN=CHANGE_ME
+=======
+AIRFLOW_TOKEN=CHANGE_ME
+>>>>>>> submissions

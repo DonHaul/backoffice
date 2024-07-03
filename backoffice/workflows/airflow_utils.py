@@ -24,9 +24,9 @@ def trigger_airflow_dag(dag_id, workflow_id, extra_data=None):
     url = f"{AIRFLOW_BASE_URL}/api/v1/dags/{dag_id}/dagRuns"
 
     try:
-        response = requests.post(url, json=data, headers=AIRFLOW_HEADERS, timeout=300)
+        response = requests.post(url, json=data, headers=AIRFLOW_HEADERS)
         response.raise_for_status()
         return JsonResponse(response.json())
     except RequestException as req_err:
-        data = {"error": str(req_err)}
+        data = {"error": req_err}
         return JsonResponse(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

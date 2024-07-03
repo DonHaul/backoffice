@@ -212,9 +212,6 @@ class TestAuthorWorkflowViewSet(BaseTransactionTestCase):
     reset_sequences = True
     fixtures = ["backoffice/fixtures/groups.json"]
 
-    def setUp(self):
-        super().setUp()
-
     @patch("backoffice.workflows.airflow_utils.requests.post")
     def test_create_author(self, mock_post):
         self.api_client.force_authenticate(user=self.curator)
@@ -235,7 +232,7 @@ class TestAuthorWorkflowViewSet(BaseTransactionTestCase):
             },
         }
 
-        url = reverse("api:authors-workflow-list")
+        url = reverse("api:workflows-authors-list")
         response = self.api_client.post(url, format="json", data=data)
 
         self.assertEqual(response.status_code, 200)
@@ -251,7 +248,7 @@ class TestAuthorWorkflowViewSet(BaseTransactionTestCase):
         data = {"create_ticket": True, "value": "accept"}
 
         response = self.api_client.post(
-            reverse("api:authors-workflow-resolve", kwargs={"pk": "WORKFLOW_ID"}), format="json", data=data
+            reverse("api:workflows-authors-resolve", kwargs={"pk": "WORKFLOW_ID"}), format="json", data=data
         )
 
         self.assertEqual(response.status_code, 200)
@@ -267,7 +264,7 @@ class TestAuthorWorkflowViewSet(BaseTransactionTestCase):
         data = {"create_ticket": True, "value": "reject"}
 
         response = self.api_client.post(
-            reverse("api:authors-workflow-resolve", kwargs={"pk": "WORKFLOW_ID"}), format="json", data=data
+            reverse("api:workflows-authors-resolve", kwargs={"pk": "WORKFLOW_ID"}), format="json", data=data
         )
 
         self.assertEqual(response.status_code, 200)
