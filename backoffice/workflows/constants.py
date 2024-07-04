@@ -21,3 +21,15 @@ WORKFLOW_TYPES = (
     ("AUTHOR_CREATE", "Author create"),
     ("AUTHOR_UPDATE", "Author update"),
 )
+
+# author dags for each workflow type
+AUTHOR_DAGS = {
+    WORKFLOW_TYPES[0][0]: (),
+    WORKFLOW_TYPES[1][0]: (),
+    WORKFLOW_TYPES[2][0]: (
+        "author_create_initialization_dag",
+        "author_create_approved_dag",
+        "author_create_rejected_dag",
+    ),
+    WORKFLOW_TYPES[3][0]: ("author_update_dag",),
+}
