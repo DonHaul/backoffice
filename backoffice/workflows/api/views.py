@@ -75,11 +75,14 @@ class WorkflowDocumentView(BaseDocumentViewSet):
         super().__init__(*args, **kwargs)
         self.search = self.search.extra(track_total_hits=True)
 
+        del self.get_object
+
     document = WorkflowDocument
     serializer_class = WorkflowSerializer
     pagination_class = OSStandardResultsSetPagination
 
     search_fields = {
+        "id",
         "workflow_type",
         "status",
         "is_update",
