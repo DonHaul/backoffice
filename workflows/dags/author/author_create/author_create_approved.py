@@ -4,6 +4,7 @@ import logging
 from airflow.decorators import dag, task
 from airflow.models.param import Param
 from airflow.utils.trigger_rule import TriggerRule
+from author.author_create.shared_tasks import create_decision_on_curation_choice
 from hooks.backoffice.workflow_management_hook import AUTHORS, WorkflowManagementHook
 from hooks.backoffice.workflow_ticket_management_hook import (
     WorkflowTicketManagementHook,
@@ -24,7 +25,6 @@ logger = logging.getLogger(__name__)
     params={
         "workflow_id": Param(type="string", default=""),
         "data": Param(type="object", default={}),
-        "create_ticket": Param(type="boolean", default=False),
     },
     start_date=datetime.datetime(2024, 5, 5),
     schedule=None,
@@ -66,10 +66,9 @@ def author_create_approved_dag():
         dag goes either to create_ticket_on_author_approval task or
         directly to create_author_on_inspire
         """
-        if context["params"]["create_ticket"]:
+        if context["params"]["data"]["create_ticket"]:
             return "create_author_create_curation_ticket"
-        else:
-            return "empty_task"
+        return "close_author_create_user_ticket"
 
     @task
     def create_author_create_curation_ticket(**context: dict) -> None:
@@ -138,11 +137,6 @@ def author_create_approved_dag():
             collection=AUTHORS,
         )
 
-    @task
-    def empty_task() -> None:
-        # Logic to combine the results of branches
-        pass
-
     @task()
     def set_author_create_workflow_status_to_error(**context: dict) -> None:
         ti = context["ti"]
@@ -165,24 +159,9 @@ def author_create_approved_dag():
         set_author_create_workflow_status_to_completed()
     )
     set_workflow_status_to_error_task = set_author_create_workflow_status_to_error()
-    combine_ticket_and_no_ticket_task = empty_task()
+    create_decision_on_curation_choice_task = create_decision_on_curation_choice()
 
     # task dependencies
-    ticket_branch = create_author_create_curation_ticket_task
-    (
-        ticket_branch
-        >> close_author_create_user_ticket_task
-        >> set_workflow_status_to_completed_task
-    )
-
-    no_ticket_branch = combine_ticket_and_no_ticket_task
-    (
-        no_ticket_branch
-        >> close_author_create_user_ticket_task
-        >> set_workflow_status_to_completed_task
-    )
-
-    author_check_approval_branch_task >> [ticket_branch, no_ticket_branch]
     (
         set_status_to_running_task
         >> create_author_on_inspire_task
@@ -192,6 +171,16 @@ def author_create_approved_dag():
         author_check_approval_branch_task,
         set_workflow_status_to_error_task,
     ]
+    (
+        [
+            author_check_approval_branch_task
+            >> create_author_create_curation_ticket_task,
+            author_check_approval_branch_task,
+        ]
+        >> close_author_create_user_ticket_task
+        >> create_decision_on_curation_choice_task
+        >> set_workflow_status_to_completed_task
+    )
 
 
 author_create_approved_dag()

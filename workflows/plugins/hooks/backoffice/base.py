@@ -58,3 +58,11 @@ class BackofficeHook(HttpHook):
         prepped_request = session.prepare_request(req)
         self.log.info("Sending '%s' to url: %s", method, url)
         return self.run_and_check(session, prepped_request, extra_options)
+
+    def request(self, method, data, endpoint):
+        return self.run_with_advanced_retry(
+            _retry_args=self.tenacity_retry_kwargs,
+            method=method,
+            data=data,
+            endpoint=endpoint,
+        )

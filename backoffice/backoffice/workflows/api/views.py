@@ -25,6 +25,7 @@ from backoffice.utils.pagination import OSStandardResultsSetPagination
 from backoffice.workflows import airflow_utils
 from backoffice.workflows.api.serializers import (
     AuthorResolutionSerializer,
+    DecisionSerializer,
     WorkflowAuthorSerializer,
     WorkflowDocumentSerializer,
     WorkflowSerializer,
@@ -37,7 +38,7 @@ from backoffice.workflows.constants import (
     WorkflowType,
 )
 from backoffice.workflows.documents import WorkflowDocument
-from backoffice.workflows.models import Workflow, WorkflowTicket
+from backoffice.workflows.models import Decision, Workflow, WorkflowTicket
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +94,38 @@ class WorkflowTicketViewSet(viewsets.ViewSet):
                 workflow_id=workflow, ticket_id=ticket_id, ticket_type=ticket_type
             )
             serializer = WorkflowTicketSerializer(workflow_ticket)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class DecisionViewSet(viewsets.ModelViewSet):
+    queryset = Decision.objects.all()
+    serializer_class = DecisionSerializer
+
+    def get_queryset(self):
+        status = self.request.query_params.get("status")
+        if status:
+            return self.queryset.filter(status__status=status)
+        return self.queryset
+
+    def create(self, request, *args, **kwargs):
+        workflow_id = request.data.get("workflow_id")
+        action = request.data.get("action")
+
+        if not all([workflow_id, action]):
+            return Response(
+                {"error": "workflow_id and action are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            decision = Decision.objects.create(
+                workflow_id=workflow_id, user=request.user, action=action
+            )
+            serializer = DecisionSerializer(decision)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(
@@ -160,7 +193,7 @@ class AuthorWorkflowViewSet(viewsets.ViewSet):
         logger.info("Resolving data: %s", request.data)
         serializer = AuthorResolutionSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            extra_data = {"create_ticket": serializer.validated_data["create_ticket"]}
+            extra_data = serializer.validated_data
             logger.info(
                 "Trigger Airflow DAG: %s for %s",
                 ResolutionDags[serializer.validated_data["value"]],

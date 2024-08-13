@@ -2,6 +2,7 @@ import datetime
 
 from airflow.decorators import dag, task
 from airflow.models.param import Param
+from author.author_create.shared_tasks import create_decision_on_curation_choice
 from hooks.backoffice.workflow_management_hook import AUTHORS, WorkflowManagementHook
 from hooks.backoffice.workflow_ticket_management_hook import (
     WorkflowTicketManagementHook,
@@ -67,9 +68,15 @@ def author_create_rejected_dag() -> None:
     set_status_to_running_task = set_workflow_status_to_running()
     close_ticket_task = close_author_create_user_ticket()
     set_status_completed_task = set_author_create_workflow_status_to_completed()
+    create_decision_on_curation_choice_task = create_decision_on_curation_choice()
 
     # task dependencies
-    set_status_to_running_task >> close_ticket_task >> set_status_completed_task
+    (
+        set_status_to_running_task
+        >> close_ticket_task
+        >> create_decision_on_curation_choice_task
+        >> set_status_completed_task
+    )
 
 
 author_create_rejected_dag()

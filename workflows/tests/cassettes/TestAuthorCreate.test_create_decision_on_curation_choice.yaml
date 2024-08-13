@@ -1,0 +1,50 @@
+interactions:
+- request:
+    body: '{"action": "create", "workflow_id": "ecaa62db-1326-43cf-8885-da96c544af42"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Token 2e04111a61e8f5ba6ecec52af21bbb9e81732085
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '75'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.31.0
+    method: POST
+    uri: http://host.docker.internal:8000/api/decisions/
+  response:
+    body:
+      string: '{"id":1,"action":"create","_created_at":"2024-08-19T15:13:28.514638Z","_updated_at":"2024-08-19T15:13:28.514646Z","user":"admin@admin.com","workflow":"ecaa62db-1326-43cf-8885-da96c544af42"}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Content-Language:
+      - en
+      Content-Length:
+      - '189'
+      Content-Type:
+      - application/json
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      Date:
+      - Mon, 19 Aug 2024 15:13:28 GMT
+      Referrer-Policy:
+      - same-origin
+      Server:
+      - WSGIServer/0.2 CPython/3.11.6
+      Vary:
+      - Accept, Accept-Language, Cookie, origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+    status:
+      code: 201
+      message: Created
+version: 1
