@@ -30,7 +30,7 @@ class WorkflowsAdminSite(admin.AdminSite):
         )
 
 
-class ModelAdmin(admin.ModelAdmin):
+class BaseModelAdmin(admin.ModelAdmin):
     def has_view_permission(self, request, obj=None):
         """
         Returns True if the user has permission to view the Workflow model.
@@ -64,7 +64,7 @@ class ModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(Workflow)
-class WorkflowAdmin(ModelAdmin):
+class WorkflowAdmin(BaseModelAdmin):
     """
     Admin class for Workflow model. Define get, update and delete permissions.
     """
@@ -91,7 +91,7 @@ class WorkflowAdmin(ModelAdmin):
 
 
 @admin.register(Decision)
-class DecisionAdmin(admin.ModelAdmin):
+class DecisionAdmin(BaseModelAdmin):
     """
     Admin class for Decision model. Define get, update and delete permissions.
     """

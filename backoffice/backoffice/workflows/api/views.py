@@ -112,25 +112,16 @@ class DecisionViewSet(viewsets.ModelViewSet):
         return self.queryset
 
     def create(self, request, *args, **kwargs):
-        workflow_id = request.data.get("workflow_id")
-        action = request.data.get("action")
+        data = {
+            "workflow": request.data["workflow_id"],
+            "user": request.user,
+            "action": request.data["action"],
+        }
 
-        if not all([workflow_id, action]):
-            return Response(
-                {"error": "workflow_id and action are required."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            decision = Decision.objects.create(
-                workflow_id=workflow_id, user=request.user, action=action
-            )
-            serializer = DecisionSerializer(decision)
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response(
-                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
 
 
 class AuthorWorkflowViewSet(viewsets.ViewSet):

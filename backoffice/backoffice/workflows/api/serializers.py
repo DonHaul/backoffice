@@ -32,6 +32,8 @@ class WorkflowSerializer(serializers.ModelSerializer):
 
 
 class DecisionSerializer(serializers.ModelSerializer):
+    workflow = serializers.PrimaryKeyRelatedField(queryset=Workflow.objects.all())
+
     class Meta:
         model = Decision
         fields = "__all__"
