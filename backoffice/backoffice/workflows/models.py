@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django_prometheus.models import ExportModelOperationsMixin
 
 from backoffice.users.models import User
 from backoffice.workflows.constants import (
@@ -14,7 +15,7 @@ from backoffice.workflows.constants import (
 )
 
 
-class Workflow(models.Model):
+class Workflow(ExportModelOperationsMixin("workflow"), models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     workflow_type = models.CharField(
@@ -35,7 +36,7 @@ class Workflow(models.Model):
     _updated_at = models.DateTimeField(auto_now=True)
 
 
-class WorkflowTicket(models.Model):
+class WorkflowTicket(ExportModelOperationsMixin("workflowticket"), models.Model):
     workflow_id = models.ForeignKey(
         Workflow, related_name="tickets", on_delete=models.CASCADE
     )
@@ -47,7 +48,7 @@ class WorkflowTicket(models.Model):
     )
 
 
-class Decision(models.Model):
+class Decision(ExportModelOperationsMixin("decision"), models.Model):
     user = models.ForeignKey(
         User,
         to_field="email",

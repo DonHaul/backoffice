@@ -2,11 +2,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField, EmailField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django_prometheus.models import ExportModelOperationsMixin
 
 from backoffice.users.managers import UserManager
 
 
-class User(AbstractUser):
+class User(ExportModelOperationsMixin("user"), AbstractUser):
     """
     Default custom user model for backoffice.
     If adding fields that need to be filled at user signup,
