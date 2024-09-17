@@ -95,18 +95,28 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.headless",
+    "allauth.socialaccount.providers.orcid",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    "allauth.socialaccount.providers.orcid",
     "django_prometheus",
     "django_opensearch_dsl",
     "django_elasticsearch_dsl_drf",
     "rest_framework_simplejwt",
     "django_json_widget",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
 ]
+
+REST_AUTH = {
+    "SESSION_LOGIN": True,
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "auth",
+    "JWT_AUTH_HTTPONLY": False,
+}
 
 LOCAL_APPS = ["backoffice.users", "backoffice.workflows", "backoffice.management"]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -127,7 +137,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "/accounts/login/success"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -349,6 +359,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "backoffice.management.permissions.IsAdminOrCuratorUser",
@@ -378,10 +389,11 @@ SOCIALACCOUNT_PROVIDERS = {
         "APP": {
             "client_id": env("ORCID_CLIENT_ID", default=""),
             "secret": env("ORCID_CLIENT_SECRET", default=""),
-            "key": "",
-        }
+        },
     }
 }
+SOCIALACCOUNT_EMAIL_VERIFICATION = False
+ACCOUNT_EMAIL_VERIFICATION = False
 
 
 # Opensearch

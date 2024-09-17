@@ -1,3 +1,6 @@
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from allauth.socialaccount.providers.orcid.views import OrcidOAuth2Adapter
+from dj_rest_auth.registration.views import SocialConnectView, SocialLoginView
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.decorators import action
@@ -23,3 +26,12 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     def me(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class OrcidLogin(SocialLoginView):
+    adapter_class = OrcidOAuth2Adapter
+    client_class = OAuth2Client
+
+
+class OrcidConnect(SocialConnectView):
+    adapter_class = OrcidOAuth2Adapter

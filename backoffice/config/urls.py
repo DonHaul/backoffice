@@ -1,3 +1,4 @@
+from allauth.socialaccount.providers.orcid.views import oauth2_callback
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -8,6 +9,8 @@ from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from backoffice.users.api.views import OrcidConnect, OrcidLogin
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -25,9 +28,11 @@ if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
     urlpatterns += staticfiles_urlpatterns()
 
+
 # API URLS
 urlpatterns += [
     # API base url
+    path("api/oauth/authorized/orcid/", oauth2_callback, name="orcid_callback"),
     path("api/", include("config.search_router")),
     path("api/", include("config.api_router")),
     # DRF auth token
@@ -40,6 +45,11 @@ urlpatterns += [
     ),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("_allauth/", include("allauth.headless.urls")),
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("dj-rest-auth/orcid/", OrcidLogin.as_view(), name="orcid_login"),
+    path("dj-rest-auth/orcid/connect/", OrcidConnect.as_view(), name="orcid_connect"),
 ]
 
 
