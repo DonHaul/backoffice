@@ -95,7 +95,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.headless",
+    #"allauth.headless",
     "allauth.socialaccount.providers.orcid",
     "django_celery_beat",
     "rest_framework",
@@ -106,9 +106,7 @@ THIRD_PARTY_APPS = [
     "django_opensearch_dsl",
     "django_elasticsearch_dsl_drf",
     "rest_framework_simplejwt",
-    "django_json_widget",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
+    "django_json_widget"
 ]
 
 REST_AUTH = {
@@ -171,7 +169,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    #"django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -358,8 +356,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication"
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "backoffice.management.permissions.IsAdminOrCuratorUser",
@@ -369,7 +366,8 @@ REST_FRAMEWORK = {
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
+# CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ALLOW_ALL_ORIGINS = True
 
 # By Default swagger ui is available only to admin user(s). You can change permission
 # classes to change that
@@ -390,6 +388,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": env("ORCID_CLIENT_ID", default=""),
             "secret": env("ORCID_CLIENT_SECRET", default=""),
         },
+        "BASE_DOMAIN": "sandbox.orcid.org"
     }
 }
 SOCIALACCOUNT_EMAIL_VERIFICATION = False

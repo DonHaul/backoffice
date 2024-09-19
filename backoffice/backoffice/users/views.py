@@ -34,6 +34,22 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 user_update_view = UserUpdateView.as_view()
 
+import requests
+
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+def orcid_callback(request):
+
+    #url = request.build_absolute_uri('/accounts/orcid/login/callback/'))
+    #params = request.GET.urlencode()
+    #return redirect(f"/accounts/orcid/login/callback/?{params}")
+    return HttpResponse("Send a POST request to see the body.", content_type="text/plain")
+
+
+def success(request):
+    url = request.build_absolute_uri(reverse('headless:app:account:current_session'))
+    print(url)
+    return JsonResponse(data=requests.get(url).json())
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
