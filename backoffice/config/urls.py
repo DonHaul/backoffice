@@ -10,7 +10,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from backoffice.users.api.views import OrcidConnect, OrcidLogin
+from backoffice.users.api.views import OrcidConnect, OrcidLogin, OrcidLoginCallback
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -32,7 +32,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/oauth/authorized/orcid/", oauth2_callback, name="orcid_callback"),
+    path("api/oauth/authorized/orcid/", OrcidLoginCallback.as_view(), name="orcid_callback"),
     path("api/", include("config.search_router")),
     path("api/", include("config.api_router")),
     # DRF auth token
