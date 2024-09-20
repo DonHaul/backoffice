@@ -36,14 +36,20 @@ from django.conf import settings
 class OrcidLogin(SocialLoginView):
     adapter_class = OrcidOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = "http://localhost:8000/api/v1/auth/google/callback/"
+    callback_url = "http://localhost:8000/api/oauth/authorized/orcid/"
 
 
 class OrcidConnect(SocialConnectView):
     adapter_class = OrcidOAuth2Adapter
 
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import AllowAny
 
+from django.shortcuts import redirect
 class OrcidLoginCallback(APIView):
+    permission_classes = [AllowAny]  # Allow access to everyone
+
+    @csrf_exempt  # Disable CSRF token check for testing purposes (optional)
     def get(self, request, *args, **kwargs):
         """
         If you are building a fullstack application (eq. with React app next to Django)
@@ -51,13 +57,23 @@ class OrcidLoginCallback(APIView):
         the JWT tokens there - and store them in the state
         """
 
+        params = request.GET.urlencode()
+    
+        # Redirect to the target view with all parameters
+        return redirect(f"http://localhost:5000/callback?{params}")
+
         code = request.GET.get("code")
 
         if code is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         # Remember to replace the localhost:8000 with the actual domain name before deployment
-        token_endpoint_url = urljoin("http://localhost:8000", reverse("orcid_login"))
+        token_endpoint_url = urljoin("http://localhost:8000", reverse("orcid_login2"))
         response = requests.post(url=token_endpoint_url, data={"code": code})
+
+        data = response.json()
+        if data["user"]["email"]=="":
+            
+            redirect
 
         return Response(response.json(), status=status.HTTP_200_OK)

@@ -42,4 +42,22 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
         return reverse("users:detail", kwargs={"pk": self.request.user.pk})
 
 
+import requests
+
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+def orcid_callback(request):
+
+    #url = request.build_absolute_uri('/accounts/orcid/login/callback/'))
+    #params = request.GET.urlencode()
+    #return redirect(f"/accounts/orcid/login/callback/?{params}")
+    return HttpResponse("Send a POST request to see the body.", content_type="text/plain")
+
+
+def success(request):
+
+    return JsonResponse(data={"wow":request.user.email})
+
 user_redirect_view = UserRedirectView.as_view()
+
+

@@ -11,6 +11,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from backoffice.users.api.views import OrcidConnect, OrcidLogin, OrcidLoginCallback
+from backoffice.users.views import success
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -32,6 +33,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
+    path("accounts/login/success/",success),
     path("api/oauth/authorized/orcid/", OrcidLoginCallback.as_view(), name="orcid_callback"),
     path("api/", include("config.search_router")),
     path("api/", include("config.api_router")),
@@ -45,10 +47,10 @@ urlpatterns += [
     ),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("_allauth/", include("allauth.headless.urls")),
+    #path("_allauth/", include("allauth.headless.urls")),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("dj-rest-auth/orcid/", OrcidLogin.as_view(), name="orcid_login"),
+    path("dj-rest-auth/orcid/", OrcidLogin.as_view(), name="orcid_login2"),
     path("dj-rest-auth/orcid/connect/", OrcidConnect.as_view(), name="orcid_connect"),
 ]
 

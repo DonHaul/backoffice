@@ -95,7 +95,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.headless",
+    #"allauth.headless",
     "allauth.socialaccount.providers.orcid",
     "django_celery_beat",
     "rest_framework",
@@ -115,6 +115,7 @@ REST_AUTH = {
     "SESSION_LOGIN": True,
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "auth",
+    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
     "JWT_AUTH_HTTPONLY": False,
 }
 
@@ -137,7 +138,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "/accounts/login/success"
+LOGIN_REDIRECT_URL = "/accounts/login/success/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -390,6 +391,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": env("ORCID_CLIENT_ID", default=""),
             "secret": env("ORCID_CLIENT_SECRET", default=""),
         },
+        "BASE_DOMAIN": "sandbox.orcid.org"
     }
 }
 SOCIALACCOUNT_EMAIL_VERIFICATION = False
