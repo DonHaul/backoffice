@@ -35,8 +35,8 @@ if settings.DEBUG:
 urlpatterns += [
     # API base url
     #print_request_body
-    path("api/oauth/authorized/orcid/", orcid_callback, name="orcid_callback"),
-    path("wow/success/", success, name="sss"),
+    path("api/oauth/authorized/orcid/", oauth2_callback, name="orcid_callback"),
+    path("success/", success, name="sss"),
     path("api/", include("config.search_router")),
     path("api/", include("config.api_router")),
     # DRF auth token

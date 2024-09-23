@@ -408,3 +408,6 @@ OPENSEARCH_DSL = {
 
 # Workaround because it wont add the connection settings automatically
 connections.configure(default=OPENSEARCH_DSL["default"])
+
+#HEADLESS_ADAPTER = "allauth.socialaccount.providers.orcid.views.OrcidOAuth2Adapter"
+HEADLESS_TOKEN_STRATEGY = "backoffice.users.tokens.BasicTokenStrategy"
