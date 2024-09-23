@@ -34,7 +34,7 @@ if settings.DEBUG:
 urlpatterns += [
     # API base url
     path("accounts/login/success/",success),
-    path("api/oauth/authorized/orcid/", OrcidLoginCallback.as_view(), name="orcid_callback"),
+    path("api/oauth/authorized/orcid/", oauth2_callback, name="orcid_callback"),
     path("api/", include("config.search_router")),
     path("api/", include("config.api_router")),
     # DRF auth token

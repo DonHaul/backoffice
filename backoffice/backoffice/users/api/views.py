@@ -39,7 +39,7 @@ class OrcidLogin(SocialLoginView):
     callback_url = "http://localhost:8000/api/oauth/authorized/orcid/"
 
     def process_login(self):
-        import ipdb; ipdb.set_trace()
+        #import ipdb; ipdb.set_trace()
         return super().process_login()
 
 

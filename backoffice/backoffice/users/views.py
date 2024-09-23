@@ -55,7 +55,7 @@ def orcid_callback(request):
 
 
 def success(request):
-
+    import ipdb;ipdb.set_trace()
     return JsonResponse(data={"wow":request.user.email})
 
 user_redirect_view = UserRedirectView.as_view()
