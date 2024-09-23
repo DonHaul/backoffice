@@ -38,6 +38,13 @@ class OrcidLogin(SocialLoginView):
     client_class = OAuth2Client
     callback_url = "http://localhost:8000/api/oauth/authorized/orcid/"
 
+    def process_login(self):
+        import ipdb; ipdb.set_trace()
+        return super().process_login()
+
+
+    
+
 
 class OrcidConnect(SocialConnectView):
     adapter_class = OrcidOAuth2Adapter
@@ -57,7 +64,9 @@ class OrcidLoginCallback(APIView):
         the JWT tokens there - and store them in the state
         """
 
-        params = request.GET.urlencode()
+        params = request.GET.urlencode() 
+
+        
     
         # Redirect to the target view with all parameters
         return redirect(f"http://localhost:5000/callback?{params}")
