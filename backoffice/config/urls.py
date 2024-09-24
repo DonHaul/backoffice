@@ -10,7 +10,6 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from backoffice.users.api.views import OrcidConnect, OrcidLogin, OrcidLoginCallback
 from backoffice.users.views import success
 
 urlpatterns = [
@@ -47,11 +46,7 @@ urlpatterns += [
     ),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    #path("_allauth/", include("allauth.headless.urls")),
-    path("dj-rest-auth/", include("dj_rest_auth.urls")),
-    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("dj-rest-auth/orcid/", OrcidLogin.as_view(), name="orcid_login2"),
-    path("dj-rest-auth/orcid/connect/", OrcidConnect.as_view(), name="orcid_connect"),
+    path("_allauth/", include("allauth.headless.urls")),
 ]
 
 

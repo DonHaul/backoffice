@@ -95,7 +95,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    #"allauth.headless",
+    "allauth.headless",
     "allauth.socialaccount.providers.orcid",
     "django_celery_beat",
     "rest_framework",
@@ -107,8 +107,6 @@ THIRD_PARTY_APPS = [
     "django_elasticsearch_dsl_drf",
     "rest_framework_simplejwt",
     "django_json_widget",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
 ]
 
 REST_AUTH = {
@@ -138,7 +136,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "/accounts/login/success/"
+LOGIN_REDIRECT_URL = "http://127.0.0.1:5000/success"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -360,7 +358,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "backoffice.management.permissions.IsAdminOrCuratorUser",
